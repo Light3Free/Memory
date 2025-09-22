@@ -1,2 +1,2 @@
 # Memory
-A simple Memory Game in HTML, CSS and JavaScript
+Sfida la tua memoria: trova le coppie e condividi il risultato! 🔥🚀
