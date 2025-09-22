@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Light&Free: Memory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Light&Free: Memory 🧠</h1>
+
+<div id="lang-selector">
+  <span id="lang-label">Seleziona la lingua:</span>
+  <button id="lang-it">🇮🇹 IT</button>
+  <button id="lang-en">🇬🇧 EN</button>
+</div>
+
+
+<p class="subtitle"></p>
+
+<div id="status">
+  <span id="level-display">Lv: 1</span> | 
+  <span id="total-time-display">⏱️ 0s</span><br>
+  <button id="restart-btn"></button>
+  <button id="pause-btn">⏸️ Pausa</button>
+</div>
+
+<div id="game"></div>
+
+<!-- Modale di fine livello -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <p id="modal-message"></p>
+    <div class="modal-buttons">
+      <button id="next-level-btn"></button>
+      <button id="discover-recipes-btn"></button>
+      <button id="share-btn"></button>
+      <button id="close-modal-btn"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Modale di conferma ricomincia -->
+<div id="restart-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>Vuoi ricominciare da capo?</p>
+    <div class="modal-buttons">
+      <button id="confirm-restart">✅ Sì</button>
+      <button id="cancel-restart">❌ No</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
