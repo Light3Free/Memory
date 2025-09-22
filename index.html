@@ -1,66 +1,99 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Light&Free: Memory</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XFNHN72W1F"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XFNHN72W1F');
-</script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent','default',{
+      'ad_storage':'denied',
+      'analytics_storage':'denied',
+      'personalization_storage':'denied',
+      'functionality_storage':'denied',
+      'security_storage':'granted'
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XFNHN72W1F"></script>
+  <script>
+    gtag('js',new Date());
+    gtag('config','G-XFNHN72W1F',{'send_page_view':false});
+  </script>
 </head>
 <body>
-
-<h1>Light&Free: Memory 🧠</h1>
-
-<div id="lang-selector">
-  <span id="lang-label">Seleziona la lingua:</span>
-  <button id="lang-it">🇮🇹 IT</button>
-  <button id="lang-en">🇬🇧 EN</button>
-</div>
-
-
-<p class="subtitle"></p>
-
-<div id="status">
-  <span id="level-display">Lv: 1</span> | 
-  <span id="total-time-display">⏱️ 0s</span><br>
-  <button id="restart-btn"></button>
-  <button id="pause-btn">⏸️ Pausa</button>
-</div>
-
-<div id="game"></div>
-
-<!-- Modale di fine livello -->
-<div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <p id="modal-message"></p>
-    <div class="modal-buttons">
-      <button id="next-level-btn"></button>
-      <button id="discover-recipes-btn"></button>
-      <button id="share-btn"></button>
-      <button id="close-modal-btn"></button>
+  <h1>Light&Free: Memory 🧠</h1>
+  <div id="lang-selector">
+    <span id="lang-label">Seleziona la lingua:</span>
+    <button id="lang-it">🇮🇹 IT</button>
+    <button id="lang-en">🇬🇧 EN</button>
+  </div>
+  <p class="subtitle"></p>
+  <div id="status">
+    <span id="level-display">Lv: 1</span> | 
+    <span id="total-time-display">⏱️ 0s</span><br>
+    <button id="restart-btn"></button>
+    <button id="pause-btn">⏸️ Pausa</button>
+  </div>
+  <div id="game"></div>
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="modal-message"></p>
+      <div class="modal-buttons">
+        <button id="next-level-btn"></button>
+        <button id="discover-recipes-btn"></button>
+        <button id="share-btn"></button>
+        <button id="close-modal-btn"></button>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- Modale di conferma ricomincia -->
-<div id="restart-modal" class="modal hidden">
-  <div class="modal-content">
-    <p>Vuoi ricominciare da capo?</p>
-    <div class="modal-buttons">
-      <button id="confirm-restart">✅ Sì</button>
-      <button id="cancel-restart">❌ No</button>
+  <div id="restart-modal" class="modal hidden">
+    <div class="modal-content">
+      <p>Vuoi ricominciare da capo?</p>
+      <div class="modal-buttons">
+        <button id="confirm-restart">✅ Sì</button>
+        <button id="cancel-restart">❌ No</button>
+      </div>
     </div>
   </div>
-</div>
-
-<script src="script.js"></script>
+  <style>
+    #cookie-banner{position:fixed;left:12px;right:12px;bottom:12px;background:#111;color:#fff;padding:14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:99999;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-family:system-ui,Arial,sans-serif}
+    #cookie-banner .msg{flex:1;min-width:220px}
+    #cookie-banner .actions{display:flex;gap:8px}
+    #cookie-banner button{padding:8px 12px;border-radius:6px;border:0;cursor:pointer}
+    #cookie-banner .accept{background:#16a34a;color:#fff}
+    #cookie-banner .reject{background:#ef4444;color:#fff}
+    #cookie-banner .more{background:transparent;color:#ddd;border:1px solid rgba(255,255,255,.08)}
+    @media(max-width:480px){#cookie-banner{padding:10px;font-size:14px}}
+  </style>
+  <div id="cookie-banner" aria-live="polite" role="dialog" style="display:none;">
+    <div class="msg" id="cookie-msg">Questo sito utilizza cookie per statistiche anonime (Google Analytics).</div>
+    <div class="actions">
+      <button class="more" id="cookie-more">Maggiori info</button>
+      <button class="reject" id="cookie-reject">Rifiuta</button>
+      <button class="accept" id="cookie-accept">Accetta</button>
+    </div>
+  </div>
+  <script>
+    (function(){
+      const texts={it:{msg:'Questo sito utilizza cookie per statistiche anonime (Google Analytics).',accept:'Accetta',reject:'Rifiuta',more:'Maggiori info'},en:{msg:'This site uses cookies for anonymous analytics (Google Analytics).',accept:'Accept',reject:'Reject',more:'More info'}};
+      function detectLang(){const htmlLang=document.documentElement.lang;if(htmlLang&&htmlLang.startsWith('it'))return'it';if(htmlLang&&htmlLang.startsWith('en'))return'en';const nav=(navigator.language||navigator.userLanguage||'').toLowerCase();if(nav.startsWith('it'))return'it';if(nav.startsWith('en'))return'en';return'it'}
+      let lang=detectLang();
+      const btnIt=document.getElementById('lang-it'),btnEn=document.getElementById('lang-en');
+      if(btnIt)btnIt.addEventListener('click',()=>setLang('it'));
+      if(btnEn)btnEn.addEventListener('click',()=>setLang('en'));
+      function setLang(l){lang=l;const t=texts[lang]||texts.it;document.getElementById('cookie-msg').textContent=t.msg;document.getElementById('cookie-accept').textContent=t.accept;document.getElementById('cookie-reject').textContent=t.reject;document.getElementById('cookie-more').textContent=t.more}
+      const key='cookie_consent_v1',saved=localStorage.getItem(key);
+      function applySavedConsent(s){if(!window.gtag)return;if(s==='granted'){gtag('consent','update',{'ad_storage':'granted','analytics_storage':'granted'});gtag('event','page_view',{send_to:'G-XFNHN72W1F'})}else if(s==='denied'){gtag('consent','update',{'ad_storage':'denied','analytics_storage':'denied'})}}
+      if(saved){applySavedConsent(saved);return}
+      document.getElementById('cookie-banner').style.display='flex';setLang(lang);
+      document.getElementById('cookie-accept').addEventListener('click',function(){localStorage.setItem(key,'granted');if(window.gtag){gtag('consent','update',{'ad_storage':'granted','analytics_storage':'granted'});gtag('event','page_view',{send_to:'G-XFNHN72W1F'})}document.getElementById('cookie-banner').style.display='none'});
+      document.getElementById('cookie-reject').addEventListener('click',function(){localStorage.setItem(key,'denied');if(window.gtag){gtag('consent','update',{'ad_storage':'denied','analytics_storage':'denied'})}document.getElementById('cookie-banner').style.display='none'});
+      document.getElementById('cookie-more').addEventListener('click',function(){window.open('/cookie-policy.html','_blank')});
+    })();
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
