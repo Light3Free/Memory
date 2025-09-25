@@ -26,7 +26,7 @@ const translations = {
     advanced: "Modalità avanzata",
     share: "Condividi su Instagram",
     close: "Chiudi",
-    discover: "Scopri le nostre ricette",
+    discover: "Scopri il mondo Light&Free",
     screenshotMsg: `
       📸 Fai uno screenshot del tuo risultato!<br>
       Poi condividilo su Instagram e tagga <b>@light3free</b> 🚀<br>
@@ -48,7 +48,7 @@ const translations = {
     advanced: "Advanced mode",
     share: "Share on Instagram",
     close: "Close",
-    discover: "Discover our recipes",
+    discover: "Discover the Light&Free world",
     screenshotMsg: `
       📸 Take a screenshot of your result!<br>
       Then share it on Instagram and tag <b>@light3free</b> 🚀<br>
