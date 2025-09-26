@@ -37,7 +37,8 @@ const translations = {
        ⏱️ Tempo totale: ${totalTime}.`,
     restartConfirm: "Vuoi ricominciare da capo?",
     yes: "Sì",
-    no: "No"
+    no: "No",
+    allLevelsComplete: "🎉 Hai completato tutti i livelli!" // <- aggiunto
   },
   en: {
     title: "Light&Free: Memory 🧠",
@@ -59,9 +60,11 @@ const translations = {
        ⏱️ Total time: ${totalTime}.`,
     restartConfirm: "Do you want to restart from the beginning?",
     yes: "Yes",
-    no: "No"
+    no: "No",
+    allLevelsComplete: "🎉 You completed all levels!" // <- aggiunto
   }
 };
+
 
 let currentLang = "it";
 function setLanguage(lang) {
@@ -263,6 +266,7 @@ function onLevelComplete() {
     nextLevelBtn.textContent = translations[currentLang].advanced;
     nextLevelBtn.disabled = false;
   } else if (advancedMode && currentLevel >= maxLevel) {
+    nextLevelBtn.textContent = translations[currentLang].allLevelsComplete;
     nextLevelBtn.disabled = true;
   } else {
     nextLevelBtn.textContent = translations[currentLang].nextLevel;
@@ -271,6 +275,8 @@ function onLevelComplete() {
 
   modal.classList.remove('hidden');
 }
+
+
 
 nextLevelBtn.addEventListener('click', () => {
   if (!advancedMode && currentLevel >= maxLevel) {
