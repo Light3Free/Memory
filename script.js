@@ -19,14 +19,14 @@ const cancelRestart = document.getElementById('cancel-restart');
 const translations = {
   it: {
     title: "Light&Free: Memory 🧠",
-    subtitle: "Sfida la tua memoria: trova le coppie e condividi il risultato! 🔥🚀",
+    subtitle: "Sfida la tua memoria: trova le coppie e condividi il risultato! 🧠",
     restart: "🔄 Ricomincia da capo",
     pause: "⏸️ Pausa",
     nextLevel: "Prossimo livello",
     advanced: "Modalità avanzata",
     share: "Condividi su Instagram",
     close: "Chiudi",
-    discover: "Scopri il mondo Light&Free",
+    discover: "Scopri le nostre ricette",
     screenshotMsg: `
       📸 Fai uno screenshot del tuo risultato!<br>
       Poi condividilo su Instagram e tagga <b>@light3free</b> 🚀<br>
@@ -41,14 +41,14 @@ const translations = {
   },
   en: {
     title: "Light&Free: Memory 🧠",
-    subtitle: "Challenge your memory: find the pairs and share your score! 🔥🚀",
+    subtitle: "Challenge your memory: find the pairs and share your result! 🧠",
     restart: "🔄 Restart from beginning",
     pause: "⏸️ Pause",
     nextLevel: "Next level",
     advanced: "Advanced mode",
     share: "Share on Instagram",
     close: "Close",
-    discover: "Discover the Light&Free world",
+    discover: "Discover our recipes",
     screenshotMsg: `
       📸 Take a screenshot of your result!<br>
       Then share it on Instagram and tag <b>@light3free</b> 🚀<br>
@@ -85,8 +85,9 @@ function setLanguage(lang) {
 document.getElementById("lang-it").addEventListener("click", () => setLanguage("it"));
 document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
 
-const emojis = ['🍎','🍌','🥭','🥥','🍍','🍑','🥝','🍉','🍓','🍒','🍇','🍋','🍐','🍊','🍈','🍏','🍅','🥑','🥕','🌽'];
+const emojis = ['🍎','🍌','🥭','🥥','🍍','🍋','🥝','🍉','🍓','🍒','🍇','🍑','🍐','🍊','🍈','🍏','🍅','🥑','🥕','🌽'];
 
+// 🔹 nuovo sistema livelli
 let currentLevel = 1;
 const maxLevel = 7;
 let totalTime = 0;
@@ -101,8 +102,6 @@ let startTime, timeElapsed;
 let timerInterval;
 let paused = false;
 
-let lastLevelMessage = ""; // 🔹 per ricordare il messaggio di completamento livello
-
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
   while (currentIndex !== 0) {
@@ -111,6 +110,42 @@ function shuffle(array) {
     [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
   return array;
+}
+
+function shuffleCardsOnReveal() {
+  if (!advancedMode || paused) return;
+  const coveredCards = Array.from(game.querySelectorAll('.card.covered'));
+  if (coveredCards.length <= 2) return;
+  const [cardA, cardB] = shuffle(coveredCards).slice(0, 2);
+
+  const rectA = cardA.getBoundingClientRect();
+  const rectB = cardB.getBoundingClientRect();
+
+  const dxA = rectB.left - rectA.left;
+  const dyA = rectB.top - rectA.top;
+  const dxB = rectA.left - rectB.left;
+  const dyB = rectA.top - rectB.top;
+
+  cardA.style.transition = "transform 0.5s ease";
+  cardB.style.transition = "transform 0.5s ease";
+
+  cardA.style.transform = `translate(${dxA}px, ${dyA}px)`;
+  cardB.style.transform = `translate(${dxB}px, ${dyB}px)`;
+
+  setTimeout(() => {
+    cardA.style.transition = "";
+    cardB.style.transition = "";
+    cardA.style.transform = "";
+    cardB.style.transform = "";
+
+    const sibling = cardB.nextSibling;
+    game.insertBefore(cardB, cardA);
+    if (sibling) {
+      game.insertBefore(cardA, sibling);
+    } else {
+      game.appendChild(cardA);
+    }
+  }, 500);
 }
 
 function formatTime(seconds) {
@@ -190,6 +225,8 @@ function onCardClick(e) {
   secondCard = card;
   clickable = false;
 
+  if (advancedMode) shuffleCardsOnReveal();
+
   if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
     matchedPairs++;
     firstCard = null;
@@ -216,13 +253,11 @@ function onLevelComplete() {
   stopTimer();
   totalTime += timeElapsed;
 
-  lastLevelMessage = translations[currentLang].levelComplete(
+  modalMessage.innerHTML = translations[currentLang].levelComplete(
     currentLevel,
     formatTime(timeElapsed),
     formatTime(totalTime)
   );
-
-  modalMessage.innerHTML = lastLevelMessage;
 
   if (!advancedMode && currentLevel >= maxLevel) {
     nextLevelBtn.textContent = translations[currentLang].advanced;
@@ -234,10 +269,9 @@ function onLevelComplete() {
     nextLevelBtn.disabled = false;
   }
 
-  modal.classList.remove("hidden");
+  modal.classList.remove('hidden');
 }
 
-// 🔹 gestione bottoni
 nextLevelBtn.addEventListener('click', () => {
   if (!advancedMode && currentLevel >= maxLevel) {
     advancedMode = true;
@@ -255,13 +289,17 @@ discoverRecipesBtn.addEventListener('click', () => {
 
 shareBtn.addEventListener('click', () => {
   modalMessage.innerHTML = translations[currentLang].screenshotMsg;
+  modal.classList.remove('hidden');
 });
 
 closeModalBtn.addEventListener('click', () => {
-  modalMessage.innerHTML = lastLevelMessage;
+  modalMessage.innerHTML = translations[currentLang].levelComplete(
+    currentLevel,
+    formatTime(timeElapsed),
+    formatTime(totalTime)
+  );
 });
 
-// 🔹 restart
 restartBtn.addEventListener('click', () => {
   restartModal.classList.remove('hidden');
 });
