@@ -20,6 +20,7 @@ const translations = {
   it: {
     title: "Light&Free: Memory 🧠",
     subtitle: "Sfida la tua memoria: trova le coppie e condividi il risultato! 🧠",
+    selectLanguage: "Seleziona lingua", // ✅ AGGIUNTA QUESTA RIGA
     restart: "🔄 Ricomincia da capo",
     pause: "⏸️ Pausa",
     nextLevel: "Prossimo livello",
@@ -38,11 +39,12 @@ const translations = {
     restartConfirm: "Vuoi ricominciare da capo?",
     yes: "Sì",
     no: "No",
-    allLevelsComplete: "🎉 Hai completato tutti i livelli!" // <- aggiunto
+    allLevelsComplete: "🎉 Hai completato tutti i livelli!"
   },
   en: {
     title: "Light&Free: Memory 🧠",
     subtitle: "Challenge your memory: find the pairs and share your result! 🧠",
+    selectLanguage: "Select language", // ✅ AGGIUNTA QUESTA RIGA
     restart: "🔄 Restart from beginning",
     pause: "⏸️ Pause",
     nextLevel: "Next level",
@@ -61,9 +63,10 @@ const translations = {
     restartConfirm: "Do you want to restart from the beginning?",
     yes: "Yes",
     no: "No",
-    allLevelsComplete: "🎉 You completed all levels!" // <- aggiunto
+    allLevelsComplete: "🎉 You completed all levels!"
   }
 };
+
 
 
 let currentLang = "it";
